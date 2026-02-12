@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+
+    <table name="category_view_tracking" resource="default" engine="innodb" comment="Category View Tracking">
+        <!-- primary key -->
+        <column xsi:type="int" name="id" unsigned="true" nullable="false" identity="true" comment="ID"/>
+        
+        <!-- (FK with catalog_category_entity) -->
+        <column xsi:type="int" name="category_id" unsigned="true" nullable="false" comment="Category ID"/>
+        
+        
+        <column xsi:type="varchar" name="category_name" length="255" nullable="true" comment="Category Name"/>
+        
+        
+        <column xsi:type="int" name="view_count" unsigned="true" nullable="false" default="0" comment="View Count"/>
+        
+        
+        <column xsi:type="date" name="date" nullable="false" comment="Date"/>
+        
+        
+        <column xsi:type="timestamp" name="last_viewed_at" nullable="false" default="CURRENT_TIMESTAMP" comment="Last Viewed At"/>
+        
+        
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        
+
+        <constraint xsi:type="foreign" referenceId="CATEGORY_VIEW_TRACKING_CATEGORY_ID_CATALOG_CATEGORY_ENTITY_ENTITY_ID"
+                    table="category_view_tracking" column="category_id"
+                    referenceTable="catalog_category_entity" referenceColumn="entity_id"
+                    onDelete="CASCADE"/>
+        
+        <constraint xsi:type="unique" referenceId="CATEGORY_VIEW_TRACKING_CATEGORY_DATE_UNIQUE">
+            <column name="category_id"/>
+            <column name="date"/>
+        </constraint>
+        
+        <index referenceId="CATEGORY_VIEW_TRACKING_DATE" indexType="btree">
+            <column name="date"/>
+        </index>
+    </table>
+</schema>
